@@ -1,22 +1,22 @@
-<h2 class="text-secondary text-center">Ajout de politiques</h2>
+<h2 class="text-center text-white bg-info">Ajout de politiques</h2>
 <hr>
-<div class="row">
-    <form class="col s12" [formGroup]="reactForm" (ngSubmit)="onSubmit(formDirective)" #formDirective="ngForm">
+<div class="row ">
+    <form class="col s12 " [formGroup]="reactForm" (ngSubmit)="onSubmit(formDirective)" #formDirective="ngForm">
         <div class="row">
-            <div class="input-field col s4">
+            <div class="input-field col s4 d-flex justify-content-center">
                 <mat-form-field>
                     <input matInput type="text" formControlName="id" placeholder="Matricule">
                     <mat-error *ngIf="!reactForm.controls['id'].valid">SVP entrez un matricule</mat-error>
                 </mat-form-field>
                 
             </div>
-            <div class="input-field col s4">
+            <div class="input-field col s4  d-flex justify-content-center">
                 <mat-form-field>
                     <input matInput type="text" formControlName="firstName" placeholder="Prénom">
                     <mat-error *ngIf="!reactForm.controls['firstName'].valid">SVP entrez un Prénom</mat-error>
                 </mat-form-field>
             </div>
-            <div class="input-field col s4"> 
+            <div class="input-field col s4 d-flex justify-content-center"> 
                 <mat-form-field>
                     <input matInput type="text" required formControlName="lastName" placeholder="Nom">
                     <mat-error *ngIf="!reactForm.controls['lastName'].valid">SVP entrez un nom</mat-error>
@@ -24,25 +24,27 @@
             </div>
         </div>
         <div class="row">
-            <div class="input-field col s4">
+            <div class="input-field col s4  d-flex justify-content-center">
                 <mat-form-field>
                     <input matInput type="imageUrl" formControlName="imageUrl" placeholder="Url photo">
                     <mat-error *ngIf="!reactForm.controls['imageUrl'].valid">SVP entrez une url valide, pour les tests utiliser :<br> https://www.cabinetadsf.com/images/testi-2.jpg</mat-error>
                 </mat-form-field>
             </div>
-            <div class="input-field col s4 form-group">
-                <div formArrayName="professions">
-                    <div *ngFor="let profession of professionForm.controls, let i=index" [formGroupName]="i">
-                        <mat-form-field>
-                            <mat-select  formControlName="skill" placeholder="Profession">
-                                <mat-option *ngFor="let job of jobs" [value]="job">{{ job | titlecase }}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
+            <div class="input-field col s4 form-group d-flex justify-content-center">
+                <div id="formArray">
+                    <div formArrayName="professions">
+                        <div *ngFor="let profession of professionForm.controls, let i=index" [formGroupName]="i">
+                            <mat-form-field>
+                                <mat-select  formControlName="skill" placeholder="Profession">
+                                    <mat-option *ngFor="let job of jobs" [value]="job">{{ job | titlecase }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
                     </div>
+                    <span class="btn btn-info" (click)="addProfession()" mat-raised-button color="info" >Ajouter une profession</span>
                 </div>
-                <span class="btn btn-info" (click)="addProfession()" mat-raised-button color="info" >Ajouter une profession</span>
             </div>
-            <div class="input-field col s4">
+            <div class="input-field col s4 d-flex justify-content-center">
                 <mat-form-field>
                     <textarea matInput type="description" formControlName="description" placeholder="Description"></textarea>
                     <mat-error *ngIf="!reactForm.controls['description'].valid">SVP entrez une description</mat-error>
@@ -55,7 +57,7 @@
     </form>
 </div>
 <hr>
-<h2 *ngIf="politiques" class="text-secondary text-center">Liste des politiques</h2>
+<h2 *ngIf="politiques" class="text-center text-white bg-info">Liste des politiques</h2>
 <hr>
 <!-- Politique cardr -->
 <div class="row mt-4">
