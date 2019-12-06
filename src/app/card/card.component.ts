@@ -21,7 +21,6 @@ import { Politique, politiques } from '../politique';
   ]
 })
 export class CardComponent implements OnInit {
-
   // ArrayList of jobs
   jobs = ["Banquier", "Boxeur", "Vendeur", "Maire", "Député", "Préfet", "Président", "DRH"];
 
