@@ -9,6 +9,9 @@ export class Politique {
     ){}
 }
 
+/**
+* some value used to test the application, still in use to initiate a project with some entries
+*/
 export const politiques: Politique[] = [
     {
         "id": 'HR02',
