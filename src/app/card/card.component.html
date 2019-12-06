@@ -1,192 +1,99 @@
-<!-- Team member -->
+<h2 class="text-secondary text-center">Ajout de politiques</h2>
+<hr>
 <div class="row">
-    <div class="col-4">
+    <form class="col s12" [formGroup]="reactForm" (ngSubmit)="onSubmit(formDirective)" #formDirective="ngForm">
+        <div class="row">
+            <div class="input-field col s4">
+                <mat-form-field>
+                    <input matInput type="text" formControlName="id" placeholder="Matricule">
+                    <mat-error *ngIf="!reactForm.controls['id'].valid">SVP entrez un matricule</mat-error>
+                </mat-form-field>
+                
+            </div>
+            <div class="input-field col s4">
+                <mat-form-field>
+                    <input matInput type="text" formControlName="firstName" placeholder="Prénom">
+                    <mat-error *ngIf="!reactForm.controls['firstName'].valid">SVP entrez un Prénom</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="input-field col s4"> 
+                <mat-form-field>
+                    <input matInput type="text" required formControlName="lastName" placeholder="Nom">
+                    <mat-error *ngIf="!reactForm.controls['lastName'].valid">SVP entrez un nom</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s4">
+                <mat-form-field>
+                    <input matInput type="imageUrl" formControlName="imageUrl" placeholder="Url photo">
+                    <mat-error *ngIf="!reactForm.controls['imageUrl'].valid">SVP entrez une url valide, pour les tests utiliser :<br> https://www.cabinetadsf.com/images/testi-2.jpg</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="input-field col s4 form-group">
+                <div formArrayName="professions">
+                    <div *ngFor="let profession of professionForm.controls, let i=index" [formGroupName]="i">
+                        <mat-form-field>
+                            <mat-select  formControlName="skill" placeholder="Profession">
+                                <mat-option *ngFor="let job of jobs" [value]="job">{{ job | titlecase }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <span class="btn btn-info" (click)="addProfession()" mat-raised-button color="info" >Ajouter une profession</span>
+            </div>
+            <div class="input-field col s4">
+                <mat-form-field>
+                    <textarea matInput type="description" formControlName="description" placeholder="Description"></textarea>
+                    <mat-error *ngIf="!reactForm.controls['description'].valid">SVP entrez une description</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <button class="s5" mat-raised-button color="primary" type="submit" [disabled]="reactForm.invalid">Ajouter un politique</button>
+        </div>
+    </form>
+</div>
+<hr>
+<h2 *ngIf="politiques" class="text-secondary text-center">Liste des politiques</h2>
+<hr>
+<!-- Team member -->
+<div class="row mt-4">
+    <div class="col-4" *ngFor="let politique of politiques" [@politiquesAnimation]="state">
         <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
             <div class="mainflip">
                 <div class="frontside">
                     <div class="card">
                         <div class="card-body text-center">
-                            <p><img class=" img-fluid" src="https://sunlimetech.com/portfolio/boot4menu/assets/imgs/team/img_01.png" alt="card image"></p>
-                            <h4 class="card-title">Sunlimetech</h4>
-                            <p class="card-text">This is basic card with image on top, title, description and button.</p>
-                            <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
+                            <p><img class=" img-fluid" src="{{ politique.imageUrl }}" alt="card image"></p>
+                            <h4 class="card-title">{{ politique.firstName }} {{ politique.lastName }}</h4>
+                            <hr>
+                            <div class="text-info row d-flex justify-content-center">
+                                <p class="card-text">{{ politique.description | shortened }}</p>
+                            </div>
+                            <hr>
+                            <div class="row d-flex justify-content-center">
+                                <span class="badge badge-pill badge-info">Plus d'infos</span>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="backside">
                     <div class="card">
                         <div class="card-body text-center mt-4">
-                            <h4 class="card-title">Sunlimetech</h4>
-                            <p class="card-text">This is basic card with image on top, title, description and button.This is basic card with image on top, title, description and button.This is basic card with image on top, title, description and button.</p>
-                            <ul class="list-inline">
-                                <li class="list-inline-item">
-                                    <a class="social-icon text-xs-center" target="_blank" href="#">
-                                        <i class="fa fa-facebook"></i>
-                                    </a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a class="social-icon text-xs-center" target="_blank" href="#">
-                                        <i class="fa fa-twitter"></i>
-                                    </a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a class="social-icon text-xs-center" target="_blank" href="#">
-                                        <i class="fa fa-skype"></i>
-                                    </a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a class="social-icon text-xs-center" target="_blank" href="#">
-                                        <i class="fa fa-google"></i>
-                                    </a>
-                                </li>
-                            </ul>
+                            <h4 class="card-title">{{ politique.firstName }} {{ politique.lastName }}</h4>
+                            <h6 class="text-secondary">Mes compétences</h6>
+                            <hr>
+                            <div *ngFor="let profession of politique.professions">
+                                <p class="card-text">{{ profession }}</p>
+                                <hr>
+                            </div>
+                            <h6 class="text-secondary">Ma description</h6>
+                            <p class="card-text">{{ politique.description }}</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- ./Team member -->
-    <div class="col-4">
-            <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
-                <div class="mainflip">
-                    <div class="frontside">
-                        <div class="card">
-                            <div class="card-body text-center">
-                                <p><img class=" img-fluid" src="https://sunlimetech.com/portfolio/boot4menu/assets/imgs/team/img_01.png" alt="card image"></p>
-                                <h4 class="card-title">Sunlimetech</h4>
-                                <p class="card-text">This is basic card with image on top, title, description and button.</p>
-                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="backside">
-                        <div class="card">
-                            <div class="card-body text-center mt-4">
-                                <h4 class="card-title">Sunlimetech</h4>
-                                <p class="card-text">This is basic card with image on top, title, description and button.This is basic card with image on top, title, description and button.This is basic card with image on top, title, description and button.</p>
-                                <ul class="list-inline">
-                                    <li class="list-inline-item">
-                                        <a class="social-icon text-xs-center" target="_blank" href="#">
-                                            <i class="fa fa-facebook"></i>
-                                        </a>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <a class="social-icon text-xs-center" target="_blank" href="#">
-                                            <i class="fa fa-twitter"></i>
-                                        </a>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <a class="social-icon text-xs-center" target="_blank" href="#">
-                                            <i class="fa fa-skype"></i>
-                                        </a>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <a class="social-icon text-xs-center" target="_blank" href="#">
-                                            <i class="fa fa-google"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- ./Team member -->
-        <div class="col-4">
-                <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
-                    <div class="mainflip">
-                        <div class="frontside">
-                            <div class="card">
-                                <div class="card-body text-center">
-                                    <p><img class=" img-fluid" src="https://sunlimetech.com/portfolio/boot4menu/assets/imgs/team/img_01.png" alt="card image"></p>
-                                    <h4 class="card-title">Sunlimetech</h4>
-                                    <p class="card-text">This is basic card with image on top, title, description and button.</p>
-                                    <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="backside">
-                            <div class="card">
-                                <div class="card-body text-center mt-4">
-                                    <h4 class="card-title">Sunlimetech</h4>
-                                    <p class="card-text">This is basic card with image on top, title, description and button.This is basic card with image on top, title, description and button.This is basic card with image on top, title, description and button.</p>
-                                    <ul class="list-inline">
-                                        <li class="list-inline-item">
-                                            <a class="social-icon text-xs-center" target="_blank" href="#">
-                                                <i class="fa fa-facebook"></i>
-                                            </a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a class="social-icon text-xs-center" target="_blank" href="#">
-                                                <i class="fa fa-twitter"></i>
-                                            </a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a class="social-icon text-xs-center" target="_blank" href="#">
-                                                <i class="fa fa-skype"></i>
-                                            </a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a class="social-icon text-xs-center" target="_blank" href="#">
-                                                <i class="fa fa-google"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- ./Team member -->
-            <!-- ./Team member -->
-        <div class="col-4">
-                <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
-                    <div class="mainflip">
-                        <div class="frontside">
-                            <div class="card">
-                                <div class="card-body text-center">
-                                    <p><img class=" img-fluid" src="https://sunlimetech.com/portfolio/boot4menu/assets/imgs/team/img_01.png" alt="card image"></p>
-                                    <h4 class="card-title">Sunlimetech</h4>
-                                    <p class="card-text">This is basic card with image on top, title, description and button.</p>
-                                    <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="backside">
-                            <div class="card">
-                                <div class="card-body text-center mt-4">
-                                    <h4 class="card-title">Sunlimetech</h4>
-                                    <p class="card-text">This is basic card with image on top, title, description and button.This is basic card with image on top, title, description and button.This is basic card with image on top, title, description and button.</p>
-                                    <ul class="list-inline">
-                                        <li class="list-inline-item">
-                                            <a class="social-icon text-xs-center" target="_blank" href="#">
-                                                <i class="fa fa-facebook"></i>
-                                            </a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a class="social-icon text-xs-center" target="_blank" href="#">
-                                                <i class="fa fa-twitter"></i>
-                                            </a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a class="social-icon text-xs-center" target="_blank" href="#">
-                                                <i class="fa fa-skype"></i>
-                                            </a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a class="social-icon text-xs-center" target="_blank" href="#">
-                                                <i class="fa fa-google"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- ./Team member -->
 </div>
