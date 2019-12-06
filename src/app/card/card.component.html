@@ -1,4 +1,4 @@
-<h2 class="text-center text-white bg-info">Ajout de politiques</h2>
+<h2 class="text-center text-white bg-info mt-2">Ajout de politiques</h2>
 <hr>
 <div class="row ">
     <form class="col s12 " [formGroup]="reactForm" (ngSubmit)="onSubmit(formDirective)" #formDirective="ngForm">
@@ -59,9 +59,9 @@
 <hr>
 <h2 *ngIf="politiques" class="text-center text-white bg-info">Liste des politiques</h2>
 <hr>
-<!-- Politique cardr -->
-<div class="row mt-4">
-    <div class="col-4" *ngFor="let politique of politiques" [@politiquesAnimation]="state">
+<!-- Politique card -->
+<div class="row mt-4 d-flex flex-wrap">
+    <div class="col-xs-12 col-sm-6 col-md-4" *ngFor="let politique of politiques" [@politiquesAnimation]="state">
         <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
             <div class="mainflip">
                 <div class="frontside">
